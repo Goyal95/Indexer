@@ -165,7 +165,7 @@ char* extractTitle(char *html,char *word){
 
 void write_to_a_file(struct Node *head){
 	FILE *fptr;
-	fptr=fopen("/home/lakshay/haha/abc.txt","w");
+	fptr=fopen("/home/abc.txt","w");
 	if(fptr==NULL){
 		printf("Error");
 		exit(1);
@@ -183,11 +183,8 @@ void write_to_a_file(struct Node *head){
 	fclose(fptr);
 }
 
-/*
-The read_from_file function reads all the words and pageno from a file named abc.txt
-and stores it into the hash_table and makes a linked list of words..
-
-
+//The read_from_file function reads all the words and pageno from a file named abc.txt
+//and stores it into the hash_table and makes a linked list of words..
 void read_from_file(){
 	FILE *fptr;
 	fptr=fopen("/home/lakshay/haha/abc.txt","r");
@@ -231,7 +228,6 @@ void read_from_file(){
 		fclose(fptr);
 	}
 }
-*/
 
 int main(){
 	struct Node *linklist_head;
@@ -239,14 +235,12 @@ int main(){
 	int page=0;
 	while(page<25){
 		char name[100];
-		//printf("%d\n", page);
 		long long int file_size,last_char_pos=0;
-		sprintf(name,"/home/lakshay/haha/file%d.txt",page);
+		sprintf(name,"/home/file%d.txt",page);
 		fl=fopen(name,"r");
 		fseek(fl, 0, SEEK_END);
 		file_size = ftell(fl);
 		fseek(fl, 0, SEEK_SET);
-		//printf("\n%lld\n",file_size);
 		char *html;
 		html = (char*) malloc (file_size+100);
 		memset(html,0,(file_size + 100));
@@ -258,14 +252,11 @@ int main(){
 		html[last_char_pos-1]='\0';
 
 		char *res=extractTitle(html,"<title>");
-		//printf("%s", res);
 		if(res!=NULL){
 			const char delimit[5]=" -,/";
 			char *token;
 			token=strtok(res,delimit);
 			while(token!=NULL){
-				//printf("token is : %s\n", token);
-				//printf("page is : %d\n",page);
 				load_into_linklist(token,page,1);
 				token=strtok(NULL, delimit);	
 			}
@@ -273,7 +264,5 @@ int main(){
 		free(html);
 		page++;
 	}
-	//print(head);
 	write_to_a_file(head);
-	//read_from_file();
 }
